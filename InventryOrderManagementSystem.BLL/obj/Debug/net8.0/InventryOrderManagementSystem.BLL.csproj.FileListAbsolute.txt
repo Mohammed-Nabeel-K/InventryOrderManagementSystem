@@ -1,0 +1,15 @@
+C:\NABEEL\Bridgeon\CRM\InventryOrderManagementSystem\InventryOrderManagementSystem.BLL\bin\Debug\net8.0\InventryOrderManagementSystem.BLL.deps.json
+C:\NABEEL\Bridgeon\CRM\InventryOrderManagementSystem\InventryOrderManagementSystem.BLL\bin\Debug\net8.0\InventryOrderManagementSystem.BLL.dll
+C:\NABEEL\Bridgeon\CRM\InventryOrderManagementSystem\InventryOrderManagementSystem.BLL\bin\Debug\net8.0\InventryOrderManagementSystem.BLL.pdb
+C:\NABEEL\Bridgeon\CRM\InventryOrderManagementSystem\InventryOrderManagementSystem.BLL\bin\Debug\net8.0\InventryOrderManagementSystem.DAL.dll
+C:\NABEEL\Bridgeon\CRM\InventryOrderManagementSystem\InventryOrderManagementSystem.BLL\bin\Debug\net8.0\InventryOrderManagementSystem.DAL.pdb
+C:\NABEEL\Bridgeon\CRM\InventryOrderManagementSystem\InventryOrderManagementSystem.BLL\obj\Debug\net8.0\InventryOrderManagementSystem.BLL.csproj.AssemblyReference.cache
+C:\NABEEL\Bridgeon\CRM\InventryOrderManagementSystem\InventryOrderManagementSystem.BLL\obj\Debug\net8.0\InventryOrderManagementSystem.BLL.GeneratedMSBuildEditorConfig.editorconfig
+C:\NABEEL\Bridgeon\CRM\InventryOrderManagementSystem\InventryOrderManagementSystem.BLL\obj\Debug\net8.0\InventryOrderManagementSystem.BLL.AssemblyInfoInputs.cache
+C:\NABEEL\Bridgeon\CRM\InventryOrderManagementSystem\InventryOrderManagementSystem.BLL\obj\Debug\net8.0\InventryOrderManagementSystem.BLL.AssemblyInfo.cs
+C:\NABEEL\Bridgeon\CRM\InventryOrderManagementSystem\InventryOrderManagementSystem.BLL\obj\Debug\net8.0\InventryOrderManagementSystem.BLL.csproj.CoreCompileInputs.cache
+C:\NABEEL\Bridgeon\CRM\InventryOrderManagementSystem\InventryOrderManagementSystem.BLL\obj\Debug\net8.0\Inventry.813A6FD5.Up2Date
+C:\NABEEL\Bridgeon\CRM\InventryOrderManagementSystem\InventryOrderManagementSystem.BLL\obj\Debug\net8.0\InventryOrderManagementSystem.BLL.dll
+C:\NABEEL\Bridgeon\CRM\InventryOrderManagementSystem\InventryOrderManagementSystem.BLL\obj\Debug\net8.0\refint\InventryOrderManagementSystem.BLL.dll
+C:\NABEEL\Bridgeon\CRM\InventryOrderManagementSystem\InventryOrderManagementSystem.BLL\obj\Debug\net8.0\InventryOrderManagementSystem.BLL.pdb
+C:\NABEEL\Bridgeon\CRM\InventryOrderManagementSystem\InventryOrderManagementSystem.BLL\obj\Debug\net8.0\ref\InventryOrderManagementSystem.BLL.dll
