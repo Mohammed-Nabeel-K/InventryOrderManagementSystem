@@ -7,7 +7,7 @@
         public string SKU { get; set; }
         public decimal Price { get; set; }
         public int QuantityInStock { get; set; }
-        public string ReorderLevel { get; set; }
+        public int ReorderLevel { get; set; }
         public bool IsActive { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime LastUpdatedAt { get; set; }

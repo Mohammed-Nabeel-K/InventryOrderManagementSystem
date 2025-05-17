@@ -19,7 +19,7 @@
             {
                 StatusCode = StatusCodes.Status500InternalServerError,
                 Message = "An unexpected error occurred.",
-                Details = exception.Message
+                Details = exception.Message + exception.InnerException
             };
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)result.StatusCode;

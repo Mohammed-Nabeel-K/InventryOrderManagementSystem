@@ -11,7 +11,7 @@
         public Decimal TotelAmount { get; set; }
         public OrderStatus Status { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime LastUpdatedAt { get; set; }
+        public DateTime? LastUpdatedAt { get; set; }
         public ICollection<OrderItem> Items { get; set; }
     }
 

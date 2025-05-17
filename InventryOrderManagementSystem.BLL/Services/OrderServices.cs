@@ -9,17 +9,17 @@ using System.Net;
 namespace InventryOrderManagementSystem.BLL.Services
 {
     public class OrderServices(
-        IOrderRepository orderRepository
-        , IProductRepository productRepository
-        , IMapper mapper
-        , ICustomerRepository customerRepository) : IOrderServices
+        IOrderRepository orderRepository,
+        IProductRepository productRepository,
+        IMapper mapper,
+        ICustomerRepository customerRepository) : IOrderServices
     {
-        public async Task<Response<OrderDto>> AddOrderAsync(OrderDto orderDto, Guid UserId)
+        public async Task<Response<OrderGetDto>> AddOrderAsync(OrderDto orderDto, Guid UserId)
         {
             var customerExists = await customerRepository.IsCustomerExists(orderDto.CustomerId);
             if (!customerExists)
             {
-                return new Response<OrderDto>
+                return new Response<OrderGetDto>
                 {
                     StatusCode = HttpStatusCode.NotFound,
                     Message = "Customer Not Found"
@@ -29,15 +29,22 @@ namespace InventryOrderManagementSystem.BLL.Services
             foreach (var items in order.Items)
             {
                 var product = await productRepository.ProductById(items.ProductId);
-                if (product == null || product.QuantityInStock >= 0)
+                if (product == null )
                 {
-                    return new Response<OrderDto>
+                    return new Response<OrderGetDto>
                     {
                         StatusCode = HttpStatusCode.NotFound,
                         Message = $"Product with id {items.ProductId} not found"
                     };
+                }else if (!product.IsActive || product.QuantityInStock <= items.Quantity)
+                {
+                    return new Response<OrderGetDto>
+                    {
+                        StatusCode = HttpStatusCode.NotFound,
+                        Message = $"Product not available now"
+                    };
                 }
-                items.UnitPrice = product.Price;
+                    items.UnitPrice = product.Price;
                 items.Total = items.Quantity * items.UnitPrice;
             }
             order.Status = OrderStatus.Pending;
@@ -45,12 +52,12 @@ namespace InventryOrderManagementSystem.BLL.Services
             order.TotelAmount = order.Items.Sum(i => i.Total);
             order.CreatedAt = DateTime.UtcNow;
             order.LastUpdatedAt = DateTime.UtcNow;
-            var isSuccess = await orderRepository.AddorderAsync(order);
-            return new Response<OrderDto>
+            var Createdorder = await orderRepository.AddorderAsync(order);
+            return new Response<OrderGetDto>
             {
-                StatusCode = isSuccess ? HttpStatusCode.Created : HttpStatusCode.InternalServerError,
-                Message = isSuccess ? "Order created successfully" : "Failed to create order",
-                Data = isSuccess ? orderDto : null
+                StatusCode = HttpStatusCode.Created,
+                Message = "Order created successfully",
+                Data = mapper.Map<OrderGetDto>(Createdorder)
             };
         }
         public async Task<Response<OrderDto>> GetOrderByIdAsync(Guid id)

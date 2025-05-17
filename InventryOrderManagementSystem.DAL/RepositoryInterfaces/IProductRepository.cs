@@ -6,6 +6,10 @@ namespace InventryOrderManagementSystem.DAL.RepositoryInterfaces
     {
         Task<List<Product>> GetAllAsync();
         Task<Product?> ProductById(Guid id);
-        Task<bool> AddStockAsync(StockMovement stockMovement);
+        Task<bool> IsProductExists(Guid productId);
+        Task<bool> UpdateStockAsync(StockMovement stockMovement);
+        Task<Product> CreateProductAsync(Product product);
+        Task<bool> UpdateProductAsync(Product product);
+        Task<List<Product>> GetLowStockProducts();
     }
 }

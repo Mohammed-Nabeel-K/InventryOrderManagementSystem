@@ -4,7 +4,8 @@ namespace InventryOrderManagementSystem.DAL.RepositoryInterfaces
 {
     public interface IOrderRepository
     {
-        Task<bool> AddorderAsync(Order order);
+        Task<Order> AddorderAsync(Order order);
         Task<Order?> GetOrderByIdAsync(Guid id);
+        Task GetOrdersNotCompletedInThreeDAys(DateTime CutoffDate);
     }
 }

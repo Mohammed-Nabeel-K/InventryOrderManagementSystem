@@ -13,9 +13,13 @@ namespace InventryOrderManagementSystem.DAL.Repositories
         }
         public async Task<Product?> ProductById(Guid id)
         {
-            return await dbContext.Products.FirstOrDefaultAsync(p => p.Id == id);
+            return await dbContext.Products.SingleOrDefaultAsync(p => p.Id == id);
         }
-        public async Task<bool> AddStockAsync(StockMovement stockMovement)
+        public async Task<bool> IsProductExists(Guid productId)
+        {
+            return await dbContext.Products.AnyAsync(p => p.Id == productId);
+        }
+        public async Task<bool> UpdateStockAsync(StockMovement stockMovement)
         {
             using var transaction = await dbContext.Database.BeginTransactionAsync();
             try
@@ -36,6 +40,23 @@ namespace InventryOrderManagementSystem.DAL.Repositories
                 await transaction.RollbackAsync();
                 return false;
             }
+        }
+        public async Task<Product> CreateProductAsync(Product product)
+        {
+            await dbContext.Products.AddAsync(product);
+            await dbContext.SaveChangesAsync();
+            return product;
+        }
+        public async Task<bool> UpdateProductAsync(Product product)
+        {
+            dbContext.Products.Update(product);
+            return await dbContext.SaveChangesAsync() > 0;
+        }
+        public async Task<List<Product>> GetLowStockProducts()
+        {
+            return dbContext.Products
+                    .Where(p => p.QuantityInStock < p.ReorderLevel)
+                    .ToList();
         }
     }
 }

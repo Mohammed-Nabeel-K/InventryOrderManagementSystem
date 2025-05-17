@@ -3,6 +3,7 @@ using InventryOrderManagementSystem.BLL.Helpers.JWT;
 using InventryOrderManagementSystem.BLL.Security;
 using InventryOrderManagementSystem.BLL.Services;
 using InventryOrderManagementSystem.BLL.SeviceInterfaces;
+using InventryOrderManagementSystem.BLL.BackgroundServices;
 using InventryOrderManagementSystem.DAL.Data;
 using InventryOrderManagementSystem.DAL.Repositories;
 using InventryOrderManagementSystem.DAL.RepositoryInterfaces;
@@ -11,11 +12,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using InventryOrderManagementSystem.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(
+        new JsonStringEnumConverter(JsonNamingPolicy.CamelCase, allowIntegerValues: false));
+});
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -24,18 +32,18 @@ builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(o =>
 {
     o.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
+        ValidateIssuer = false,
+        ValidateAudience = false,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
     };
 });
+
 
 //Add Swagger Here
 builder.Services.AddSwaggerGen(c =>
@@ -72,6 +80,21 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+//Add HostedService Here
+builder.Services.AddHostedService<ReorderAlertService>();
+builder.Services.AddHostedService<OrderCleanUpService>();
+
+//Middlewares Here
+builder.Services.AddScoped<GlobalExceptionHandler>();
+builder.Services.AddScoped<UserIdMiddleware>();
+
+//Add Caching Here
+builder.Services.AddMemoryCache();
+
+//Add Logging Here
+builder.Logging.ClearProviders(); 
+builder.Logging.AddConsole();
+
 //Mapper Configuration Here
 builder.Services.AddScoped<AutoMapperProfile>();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
@@ -80,6 +103,7 @@ builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 builder.Services.AddScoped<IAuthServices, AuthServices>();
 builder.Services.AddScoped<IProductServices, ProductServices>();
 builder.Services.AddScoped<IOrderServices, OrderServices>();
+builder.Services.AddScoped<IReportsServices, ReportsServices>();
 
 //other services Here
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
@@ -90,6 +114,7 @@ builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<IReportsRepository, ReportsRepository>();
 
 var app = builder.Build();
 
@@ -102,9 +127,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseMiddleware<GlobalExceptionHandler>();
+
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseMiddleware<UserIdMiddleware>();
 
 app.MapControllers();
 

@@ -13,3 +13,4 @@ C:\NABEEL\Bridgeon\CRM\InventryOrderManagementSystem\InventryOrderManagementSyst
 C:\NABEEL\Bridgeon\CRM\InventryOrderManagementSystem\InventryOrderManagementSystem.BLL\obj\Debug\net8.0\refint\InventryOrderManagementSystem.BLL.dll
 C:\NABEEL\Bridgeon\CRM\InventryOrderManagementSystem\InventryOrderManagementSystem.BLL\obj\Debug\net8.0\InventryOrderManagementSystem.BLL.pdb
 C:\NABEEL\Bridgeon\CRM\InventryOrderManagementSystem\InventryOrderManagementSystem.BLL\obj\Debug\net8.0\ref\InventryOrderManagementSystem.BLL.dll
+C:\NABEEL\Bridgeon\CRM\InventryOrderManagementSystem\InventryOrderManagementSystem.BLL\obj\Debug\net8.0\InventryOrderManagementSystem.BLL.sourcelink.json
